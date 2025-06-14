@@ -1,27 +1,23 @@
 # Classical Synchronization Problems in C++
 
-This project demonstrates the implementation of three classical synchronization problems using C++11 threading primitives. It showcases low-level concurrency control mechanisms by implementing custom semaphore using C++ mutex and condition_variable.
+This project demonstrates the implementation of three classical synchronization problems using C++11 threads , `mutex` and `condition_variable`.
 
 ## 🧵 Implemented Problems
 
 ### 1. Producer-Consumer
-- Simulates a bounded buffer with two producers and two consumers.
-- Synchronization achieved using a **custom counting semaphore** built with `mutex` and `condition_variable`.
-- Prevents race conditions and ensures safe access to a shared queue using a binary `mutex`.
+- Simulates a bounded buffer with **multiple producers and consumers**.
+- Synchronization achieved using a **custom counting semaphore** built with `mutex` and `condition_variable`, rather than relying on POSIX semaphores.
+- Prevents race conditions and ensures safe access to a shared queue.
+- Highlights how condition variables eliminate unnecessary busy-waiting by safely unlocking and relocking during wait.
 
 ### 2. Reader-Writer
-- Models the first-reader preference strategy.
-- Synchronization logic uses two `mutex` objects to protect shared counters and writer access.
-- Ensures that multiple readers can read concurrently, while writers get exclusive access.
+- Models the **first-reader preference** strategy using `mutex` for shared counters and writer control.
+- A second version is also added to **prevent writer starvation**, offering better fairness and more realism than standard textbook examples.
 
 ### 3. Dining Philosophers
-- Simulates five philosophers trying to eat without causing deadlock.
-- Uses one `mutex` per fork and a global `table_lock` to ensure deadlock prevention.
-- Each philosopher runs in a infinite loop to simulate **continuous contention**, which:
-  - Tests robustness of deadlock prevention
-  - Validates fairness across all philosophers
-  - Demonstrates system behavior under high concurrency pressure
-
+- Simulates five philosophers eating and thinking in a loop.
+- Textbook versions risk **deadlock**; this solution uses a global `table_lock` along with individual fork `mutex`es to ensure no two adjacent philosophers block each other.
+- Simple yet effective strategy to maintain **deadlock freedom** with minimal locking overhead.
 
 ## 💻 Tools & Technologies
 
@@ -34,7 +30,8 @@ This project demonstrates the implementation of three classical synchronization 
 ```
 .
 ├── pcProblemSol.cpp        # Producer-Consumer Problem
-├── rwProblemSol.cpp        # Reader-Writer Problem
+├── rwProblemSol.cpp        # Reader-Writer Problem (Reader Preference)
+├── rwProblemSolFinal.cpp   # Reader-Writer Problem (Fairness with Writer Starvation Prevention) (with starvation fix)
 ├── dinningPhilosopher.cpp  # Dining Philosophers Problem
 ├── .gitignore
 └── README.md
@@ -44,20 +41,22 @@ This project demonstrates the implementation of three classical synchronization 
 
 ```bash
 # Compile
-g++ pcProblemSol.cpp -o pcProblemSol
+g++ pcProblemSol.cpp -o pcProblemSol 
 g++ rwProblemSol.cpp -o rwProblemSol
+g++ rwProblemSolFinal.cpp -o rwProblemSolFinal
 g++ dinningPhilosopher.cpp -o diningPhilosopher
 
 # Run
 ./pcProblemSol
 ./rwProblemSol
+./rwProblemSolFinal
 ./diningPhilosopher
 ```
 
 ## 🧠 Relevance to Embedded & Systems Programming
 
 - Manually implemented synchronization mechanisms.
-- Resource sharing control under concurrent environments.
+- Resource sharing management under concurrent environments.
 - Careful design to avoid deadlock and starvation.
+- Simulates real-world contention to test system robustness.
 - Lightweight thread management suitable for constrained systems.
-

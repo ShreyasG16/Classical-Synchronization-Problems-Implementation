@@ -1,3 +1,5 @@
+//Problem : This solution has writers starvation problem.It is biased towards Readers as it blocks writer and readers may keep coming.
+
 #include <iostream>
 #include <thread>
 #include <mutex>

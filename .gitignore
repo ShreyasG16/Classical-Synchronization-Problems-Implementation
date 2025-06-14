@@ -1,7 +1,4 @@
 *.o
 *.out
 *.exe
-pcProblemSol   
-rwProblemSol
-dinningPhilosopher
 .vscode/

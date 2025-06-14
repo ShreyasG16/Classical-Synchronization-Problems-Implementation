@@ -5,7 +5,7 @@
 #include <unistd.h> 
 using namespace std;
 
-const int n = 5; // Number of philosophers
+const int n = 5; // No. of philosophers
 
 mutex forks[n];      // One mutex per fork
 mutex table_lock;    // Global lock to prevent deadlock
@@ -54,12 +54,12 @@ int main()
 
     for(int i = 0; i < n; ++i) 
     {
-        threads.push_back(thread(philosopher, i)); // using push_back instead of emplace_back
+        threads.push_back(thread(philosopher, i));
     }
 
     for(int i = 0; i < n; ++i) 
     {
-        threads[i].join(); // Wait for all threads to finish (infinite loop)
+        threads[i].join();
     }
 
     return 0;
